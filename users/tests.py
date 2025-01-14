@@ -19,7 +19,7 @@ class UserAuthTest(APITestCase):
     def setUp(self):
         self.register_url = 'http://127.0.0.1:8000/api/auth/register/'
         self.token_url = 'http://127.0.0.1:8000/api/auth/token/'
-        self.refresh_url = 'http://127.0.0.1:8000/api/auth/refresh/'
+        self.refresh_url = 'http://127.0.0.1:8000/api/auth/token/refresh/'
 
         self.user_data = {
             'email': 'dummy@gmail.com',
