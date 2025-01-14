@@ -35,8 +35,9 @@ class MutualFundView(NavyaAuthView):
 
     def get(self, request, *args, **kwargs):
         query_set = self.get_queryset()
-        if self.request.query_params.get("id"):
-            query_set = query_set.filter(id=self.request.query_params.get("id"))
+        pk = kwargs.get("pk")
+        if pk:
+            query_set = query_set.filter(id=pk)
         serializer = self.get_serializer(query_set, many=True)
         return SuccessResponse(
             success=True,

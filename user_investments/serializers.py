@@ -6,11 +6,13 @@ class UserInvestmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInvestments
         fields = [
+            'id',
             'mutual_fund',
-            'units'
+            'units',
         ]
         extra_kwargs = {
             'mutual_fund': {'required': True},
-            'units': {'required': True}
+            'units': {'required': True},
+            'id': {'read_only': True}
         }
 
