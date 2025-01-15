@@ -1,33 +1,21 @@
 from decimal import Decimal
 
 from rest_framework import serializers
-from user_investments.models import UserInvestments
 
 
-class UserReportSerializer(serializers.ModelSerializer):
-    value = serializers.SerializerMethodField()
-    nav = serializers.SerializerMethodField()
-
-    def get_value(self, obj):
-        return Decimal(obj.units) * Decimal(obj.mutual_fund.nav)
-
-    def get_nav(self, obj):
-        return obj.mutual_fund.nav
+class UserReportSerializer(serializers.Serializer):
+    mutual_fund = serializers.CharField(source='mutual_fund__name')
+    nav= serializers.DecimalField(source='mutual_fund__nav', max_digits=12, decimal_places=4)
+    total_units = serializers.DecimalField(source='sum_units', max_digits=12, decimal_places=4)
+    total_value = serializers.DecimalField(max_digits=12, decimal_places=4, read_only=True)
 
     def to_representation(self, instance):
-        # Get the original representation
         representation = super().to_representation(instance)
+        total_units = representation.get('total_units', 0)
+        nav= representation.get('nav', 0)
 
-        # Replace the mutual_fund field with its name
-        representation['mutual_fund'] = instance.mutual_fund.name  # Assuming 'name' is the field in mutual_fund
+        # Calculate total_value: total_units * mutual_fund_nav
+        total_value = Decimal(total_units) * Decimal(nav)
+        representation['total_value'] = total_value
 
         return representation
-
-    class Meta:
-        model = UserInvestments
-        fields = [
-            'mutual_fund',
-            'units',
-            "nav",
-            'value'
-        ]
