@@ -37,10 +37,7 @@ class TokenPairObtainView(NavyaAuthLessView):
         user = serializer.validated_data
         # now get the token pair
         refresh = RefreshToken.for_user(user)
-        return SuccessResponse(
-            success=True,
-            data={"access": str(refresh.access_token), "refresh": str(refresh)},
-            status=status.HTTP_200_OK,
+        return SuccessResponse(success=True,data={"access": str(refresh.access_token), "refresh": str(refresh)},status=status.HTTP_200_OK,
         )
 
 
