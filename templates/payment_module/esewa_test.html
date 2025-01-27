@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Esewa Payment</title>
+</head>
+<body>
+{#create a button Pay with Esewa with post request#}
+<button id="EsewaPay">
+    Pay with Esewa
+</button>
+<script>
+    document.getElementById("EsewaPay").addEventListener("click", function(){
+        const url = {{ esewa_url }};
+        const formData = {{ body_data|safe }}
+        let form = document.createElement("form");
+        form.method = "POST";
+        form.action = url;
+        form.target = "_blank";
+        for (let key in formData) {
+                if (formData.hasOwnProperty(key)) {
+                    let input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = key;
+                    input.value = formData[key];
+                    form.appendChild(input);
+                }
+            }
+        document.body.appendChild(form);
+            form.submit();
+
+    })
+</script>
+</body>
+</html>

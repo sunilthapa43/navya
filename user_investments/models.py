@@ -7,9 +7,10 @@ from django.db import models
 # - mutual_fund: ForeignKey to mutual funds.
 # - units: Number of units (float).
 
+
 class UserInvestments(models.Model):
-    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    mutual_fund = models.ForeignKey('mutual_funds.MutualFund', on_delete=models.CASCADE)
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    mutual_fund = models.ForeignKey("mutual_funds.MutualFund", on_delete=models.CASCADE)
     units = models.FloatField()
 
     def __str__(self):

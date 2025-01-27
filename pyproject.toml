@@ -1,0 +1,68 @@
+[project]
+name = "navya"
+version = ""
+description = "Navya Simple"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = ""
+# -- recommended but optional:
+python_files = ["test_*.py", "*_test.py", "testing/python/*.py"]
+addopts = ["--reuse-db"]
+cache_dir = ".pytest_cache"
+log_cli = "true"
+filterwarnings = "ignore"
+log_cli_level = "WARNING"
+required_plugins = "pytest-django pytest-xdist"
+
+[tool.pyright]
+# from https://microsoft.github.io/pyright/#/configuration?id=sample-pyprojecttoml-file
+typeCheckingMode = "standard"
+useLibraryCodeForTypes = true
+venvPath = ".venv"
+include = ["mutual_funds", "core", "payment_module", "reports", "users", "apps", "user_investments"]
+reportMissingImports = true
+reportMissingTypeStubs = false
+stubPath = "typings"
+pythonVersion = "3.12"
+
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_return_any = true
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+exclude = ["migrations", ".venv", ]
+
+
+# Ignore all errors on migrations
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = ""
+ignore_missing_settings = true
+ignore_missing_models = true
+ignore_missing_migrations = true
+
+[tool.ruff]
+exclude = ["migrations", ".venv", "protos"]
+cache-dir = "~/.cache/ruff"
+line-length = 90
+lint.select = ["E", "F", "W",  "I"]
+lint.ignore = ["E501", "S605", "S607", "ANN003", "ANN002", "ISC001", "ANN401", "S104", "S311", "ARG002", "B017", "S101"]
+lint.extend-select = ["B", "C", "C90", "S", "ANN", "BLE", "FBT", "DTZ", "DJ", "EM", "ISC", "ICN", "FURB", "PERF", "TRY", "PTH", "ARG", "SIM", "UP","RET", "PIE", "LOG"]
+target-version = "py311"
+preview = true
+
+#isort configuration
+[tool.isort]
+profile = "black"
+line_length = 90
+multi_line_output = 3
+include_trailing_comma = true
+

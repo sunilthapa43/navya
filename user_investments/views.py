@@ -1,9 +1,10 @@
 from rest_framework import status
-from core.views import NavyaAuthView, ErrorResponse, SuccessResponse, NavyaSuperUserView
+
+from core.views import ErrorResponse, NavyaAuthView, SuccessResponse
 from user_investments.models import UserInvestments
 from user_investments.serializers import UserInvestmentsSerializer
-# Create your views here.
 
+# Create your views here.
 
 
 class UserInvestmentView(NavyaAuthView):
@@ -14,17 +15,11 @@ class UserInvestmentView(NavyaAuthView):
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return ErrorResponse(
-                success=False,
-                error=serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
+                success=False, error=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
-        serializer.save(
-            user=request.user
-        )
+        serializer.save(user=request.user)
         return SuccessResponse(
-            success=True,
-            data=serializer.data,
-            status=status.HTTP_201_CREATED
+            success=True, data=serializer.data, status=status.HTTP_201_CREATED
         )
 
     def get(self, request, *args, **kwargs):
@@ -34,8 +29,5 @@ class UserInvestmentView(NavyaAuthView):
             query_set = query_set.filter(id=pk)
         serializer = self.get_serializer(query_set, many=True)
         return SuccessResponse(
-            success=True,
-            data=serializer.data,
-            status=status.HTTP_200_OK
+            success=True, data=serializer.data, status=status.HTTP_200_OK
         )
-

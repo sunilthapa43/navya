@@ -6,4 +6,4 @@ from mutual_funds.models import MutualFund
 class MutualFundSerializer(serializers.ModelSerializer):
     class Meta:
         model = MutualFund
-        fields = '__all__'
+        fields = "__all__"

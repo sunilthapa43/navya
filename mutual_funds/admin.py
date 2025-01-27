@@ -6,6 +6,6 @@ from mutual_funds.models import MutualFund
 
 admin.site.register(
     MutualFund,
-    list_display=['name', 'symbol', 'nav', 'fund_type', 'id'],
-    list_filter=['name', 'symbol']
+    list_display=["name", "symbol", "nav", "fund_type", "id"],
+    list_filter=["name", "symbol"],
 )

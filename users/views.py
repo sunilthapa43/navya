@@ -1,9 +1,12 @@
-from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from core.views import NavyaAuthLessView, SuccessResponse, ErrorResponse
-from users.serializers import UserSerializer, TokenPairObtainSerializer, TokenRefreshSerializer
+from core.views import ErrorResponse, NavyaAuthLessView, SuccessResponse
+from users.serializers import (
+    TokenPairObtainSerializer,
+    TokenRefreshSerializer,
+    UserSerializer,
+)
 
 
 # Create your views here.
@@ -14,16 +17,13 @@ class UserRegistrationView(NavyaAuthLessView):
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return ErrorResponse(
-                success=False,
-                error=serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
+                success=False, error=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         serializer.save()
         return SuccessResponse(
-            success=True,
-            data=serializer.data,
-            status=status.HTTP_201_CREATED
+            success=True, data=serializer.data, status=status.HTTP_201_CREATED
         )
+
 
 class TokenPairObtainView(NavyaAuthLessView):
     serializer_class = TokenPairObtainSerializer
@@ -32,20 +32,15 @@ class TokenPairObtainView(NavyaAuthLessView):
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return ErrorResponse(
-                success=False,
-                error=serializer.errors,
-                status=status.HTTP_400_BAD_REQUEST
+                success=False, error=serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         user = serializer.validated_data
         # now get the token pair
         refresh = RefreshToken.for_user(user)
         return SuccessResponse(
             success=True,
-            data={
-                'access': str(refresh.access_token),
-                'refresh': str(refresh)
-            },
-            status=status.HTTP_200_OK
+            data={"access": str(refresh.access_token), "refresh": str(refresh)},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -61,12 +56,10 @@ class RefreshTokenObtainView(NavyaAuthLessView):
                 success=False,
                 data=None,
                 status=status.HTTP_400_BAD_REQUEST,
-                error=serializer.errors
+                error=serializer.errors,
             )
         return SuccessResponse(
             success=True,
-            data={
-                'access': str(serializer.validated_data.access_token)
-            },
-            status=status.HTTP_200_OK
-         )
+            data={"access": str(serializer.validated_data.access_token)},
+            status=status.HTTP_200_OK,
+        )
