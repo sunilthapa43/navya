@@ -5,6 +5,8 @@ repos:
   hooks:
     # Run the linter.
     - id: ruff
-      args: [ check -- select I --fix ]
-    # Run the formatter.
-    - id: ruff-format
+      args: [ "--fix" ]  # Lint and auto-fix issues
+    - id: ruff-format  # Ensure formatting is correct
+    - id: ruff
+      name: "Ruff Import Sort"
+      args: [ "check", "--select", "I", "--fix" ]
